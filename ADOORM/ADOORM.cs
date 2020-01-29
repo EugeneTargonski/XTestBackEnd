@@ -10,12 +10,17 @@ namespace ADOORM
     {
         private readonly string connectionString;
         private readonly Type objectType;
+        private readonly string baseName;
+        private readonly ILogger logger;
 
-        public ORMLight(string _connectionString, string baseName, ILogger logger = null)
+        public ORMLight(string _connectionString, string _baseName, ILogger _logger = null)
         {
             connectionString = _connectionString;
+            logger = _logger;
             objectType = typeof(T);
-            CreateBase(baseName);
+            baseName = _baseName;
+            CreateBase();
+            CreateFields();
         }
         //Parameterization not used. User havn't access to property names.
         public void ObjectList()
@@ -169,16 +174,16 @@ namespace ADOORM
             {
                 connection.Open();
                 //Create a structure the properties of a class in SQL 
-                string TableName = objectType.Name.ToString();
-                CreateTable(TableName);
+                string tableName = objectType.Name.ToString();
+                CreateTable(tableName);
                 foreach (PropertyInfo propinfo in objectType.GetProperties())
                 {
-                    AddColumns(TableName, propinfo.Name, propinfo.PropertyType);
+                    AddColumns(tableName, propinfo.Name, propinfo.PropertyType);
                 }
                 //END //Create a structure the properties of a class in SQL 
             }
         }
-        public void CreateBase(string baseName, ILogger logger = null)
+        private void CreateBase()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

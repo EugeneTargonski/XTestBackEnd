@@ -7,6 +7,6 @@ namespace XTestBackEnd
 {
     public static class Constants
     {
-        public static string BaseName = "XTestDb";
+        public static string baseName = "XTestDb";
     }
 }

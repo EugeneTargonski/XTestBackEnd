@@ -13,7 +13,7 @@ namespace XTestBackEnd
         private readonly ORMLight<T> ormLight;
         public AzureRepository(string connectionString, ILogger logger)
         {
-            ormLight = new ORMLight<T>(connectionString, Constants.BaseName);
+            ormLight = new ORMLight<T>(connectionString, Constants.baseName);
         }
 
         public void Create(T item)
