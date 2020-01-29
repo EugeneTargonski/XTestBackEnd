@@ -2,13 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>2bc4b027-b7ad-4866-aa71-55df37e1ad84</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="ADOORM">
-      <HintPath>Library\ADOORM.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ADOORM\ADOORM.csproj" />
+  </ItemGroup>
 
 </Project>

@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using XTestBackEnd.Interfaces;
+using XTestBackEnd.Models;
 
 namespace XTestBackEnd
 {
@@ -25,7 +27,12 @@ namespace XTestBackEnd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration.GetConnectionString("AzureConnection");
             services.AddControllers();
+            services.AddSingleton<IRepository<User>>(new AzureRepository<User>(connectionString, null));
+            services.AddSingleton<IRepository<MeetingRecord>>(new AzureRepository<MeetingRecord>(connectionString, null));
+            services.AddSingleton<IRepository<MeetingType>>(new AzureRepository<MeetingType>(connectionString, null));
+            services.AddSingleton<IRepository<WorkingTime>>(new AzureRepository<WorkingTime>(connectionString, null));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
