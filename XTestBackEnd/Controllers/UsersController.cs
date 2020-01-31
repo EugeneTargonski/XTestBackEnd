@@ -10,29 +10,26 @@ using Microsoft.Extensions.Logging;
 
 namespace XTestBackEnd.Controllers
 {
-    //[Route("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        //private readonly ILogger _logger;
+        private readonly ILogger<UsersController> _logger;
         private readonly IRepository<User> _userRepository;
-        public UsersController(IRepository<User> userRepository
-                                //, ILogger logger
-                                )
+        public UsersController(IRepository<User> userRepository, ILogger<UsersController> logger)
         {
             _userRepository = userRepository;
-            //_logger = logger;
+            _logger = logger;
         }
         // GET: api/Users
         [HttpGet]
         public IEnumerable<User> Get()
         {
-            return _userRepository.GetList(); ;
+            return _userRepository.GetList();
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public User Get(int id)
         {
             return _userRepository.GetById(id);
@@ -40,16 +37,16 @@ namespace XTestBackEnd.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public void Post([FromBody] User user)
+        public void Post([FromBody] User value)
         {
-            _userRepository.Create(user);
+            _userRepository.Create(value);
         }
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public void Put([FromBody]  User user)
+        public void Put([FromBody] User value)
         {
-            _userRepository.Create(user);
+            _userRepository.Create(value);
         }
 
         // DELETE: api/ApiWithActions/5
