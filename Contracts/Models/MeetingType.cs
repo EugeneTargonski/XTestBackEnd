@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace XTestBackEnd.Models
+namespace Contracts.Models
 {
     public class MeetingType
     {

@@ -10,8 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using XTestBackEnd.Interfaces;
-using XTestBackEnd.Models;
+using Contracts.Interfaces;
+using Contracts.Models;
 
 namespace XTestBackEnd
 {

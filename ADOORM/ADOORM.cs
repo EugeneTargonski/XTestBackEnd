@@ -26,9 +26,9 @@ namespace ADOORM
             CreateFields();
         }
         //Parameterization not used. User havn't access to property names.
-        public List<object> GetAllItems()
+        public List<T> GetRecords()
         {
-            List<object> ReadedList = new List<object>();
+            List<T> ReadedList = new List<T>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -45,14 +45,41 @@ namespace ADOORM
                         {
                             ConvertFromSQLType(property, Readed, reader[property.Name]);
                         }
-                        ReadedList.Add(Readed);
+                        ReadedList.Add((T)Readed);
                     }
                 }
                 reader.Close();
             }
             return ReadedList;
         }
-        public Dictionary<object, int> ObjectGroup(string propertyName)
+        //TODO non-ended
+        public List<T> GetRecordsByStringValue(string propertyName, string value)
+        {
+            List<T> ReadedList = new List<T>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sqlExpression = "SELECT * FROM " + tableName;
+                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    object Readed = Activator.CreateInstance(objectType);
+                    while (reader.Read())
+                    {
+                        var properties = objectType.GetProperties();
+                        foreach (var property in properties)
+                        {
+                            ConvertFromSQLType(property, Readed, reader[property.Name]);
+                        }
+                        ReadedList.Add((T)Readed);
+                    }
+                }
+                reader.Close();
+            }
+            return ReadedList;
+        }
+        public Dictionary<object, int> GetAllRecordsGroupBy(string propertyName)
         {
             Dictionary<object, int> ReadedList = new Dictionary<object, int>();
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -74,7 +101,7 @@ namespace ADOORM
             }
             return ReadedList;
         }
-        public Dictionary<object, int> ObjectGroup(string propertyName1, string propertyName2)
+        public Dictionary<object, int> GetAllRecordsGroupBy(string propertyName1, string propertyName2)
         {
             Dictionary<object, int> ReadedList = new Dictionary<object, int>();
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -96,7 +123,7 @@ namespace ADOORM
             }
             return ReadedList;
         }
-        public object ObjectAgregate(string propertyName, string agrFunction)
+        public object Agregate(string propertyName, string agrFunction)
         {
             object Readed = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -108,7 +135,8 @@ namespace ADOORM
             }
             return Readed;
         }
-        public object ObjectAgregateWithRestrictions(string propertyName, string agrFunction,
+        //TODO refactor, sql inj is posible
+        public object AgregateWithRestrictions(string propertyName, string agrFunction,
                                                     string restrictionName, object restriction11,
                                                     object restriction12,
                                                     string restrictionName2, object restriction21,
@@ -131,7 +159,8 @@ namespace ADOORM
             }
             return Readed;
         }
-        public object ObjectAgregateWithRestrictions(string propertyName, string agrFunction,
+        //TODO refactor, sql inj is posible
+        public object AgregateWithRestrictions(string propertyName, string agrFunction,
                                                             string restrictionName, object restriction1,
                                                             object restriction2, bool number = false)
         {
@@ -150,7 +179,7 @@ namespace ADOORM
             }
             return Readed;
         }
-        public object ObjectTop(string propertyName, bool asc = true)
+        public T Top1(string propertyName, bool asc = true)
         {
             object Readed = null;
             string order = " ASC";
@@ -176,9 +205,9 @@ namespace ADOORM
                 }
                 reader.Close();
             }
-            return Readed;
+            return (T)Readed;
         }
-        public object ObjectRead(int id)
+        public T GetRecords(int id)
         {
             object Readed = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -199,15 +228,13 @@ namespace ADOORM
                         {
                             ConvertFromSQLType(property, Readed, reader[property.Name]);
                         }
-                        var ObjectId = objectType.GetField("id");
-                        ObjectId.SetValue(Readed, (int)reader["id"]);
                     }
                 }
                 reader.Close();
             }
-            return Readed;
+            return (T)Readed;
         }
-        public void ObjectDelete(int id)
+        public void Delete(int id)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -219,7 +246,7 @@ namespace ADOORM
                 int number = command.ExecuteNonQuery();
             }
         }
-        public void ObjectSave(object SavedObject)
+        public void Save(object SavedObject)
         {
             int id = 0;
             try
@@ -228,11 +255,11 @@ namespace ADOORM
             }
             catch { }
             if (id == 0)
-            { NewObjectSave(SavedObject); }
+            { NewRecordSave(SavedObject); }
             else
-            { OldObjectSave(SavedObject, id); }
+            { ExistingRecordSave(SavedObject, id); }
         }
-        public void OldObjectSave(object SavedObject, int id)
+        private void ExistingRecordSave(object SavedObject, int id)
         {
             string sqlExpression = "UPDATE " + tableName + " SET ";
             string comma = "";
@@ -258,7 +285,7 @@ namespace ADOORM
                 command.ExecuteNonQuery();
             }
         }
-        private void NewObjectSave(object SavedObject)
+        private void NewRecordSave(object SavedObject)
         {
             string sqlExpression = "INSERT INTO " + tableName + " (";
             string comma = "";

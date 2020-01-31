@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XTestBackEnd", "XTestBackEnd\XTestBackEnd.csproj", "{B5CC23E5-1BC5-449D-BB2F-2816D7F27A74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADOORM", "ADOORM\ADOORM.csproj", "{4A8F75E0-8E4A-4D4B-AA81-CCD5675773AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ADOORM", "ADOORM\ADOORM.csproj", "{4A8F75E0-8E4A-4D4B-AA81-CCD5675773AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{99A3731C-CDB9-4E41-8C05-92D7BDB22DF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{4A8F75E0-8E4A-4D4B-AA81-CCD5675773AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A8F75E0-8E4A-4D4B-AA81-CCD5675773AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A8F75E0-8E4A-4D4B-AA81-CCD5675773AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99A3731C-CDB9-4E41-8C05-92D7BDB22DF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99A3731C-CDB9-4E41-8C05-92D7BDB22DF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99A3731C-CDB9-4E41-8C05-92D7BDB22DF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99A3731C-CDB9-4E41-8C05-92D7BDB22DF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

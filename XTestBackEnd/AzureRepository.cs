@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ADOORM;
 using Microsoft.Extensions.Logging;
-using XTestBackEnd.Interfaces;
+using Contracts.Interfaces;
 
 namespace XTestBackEnd
 {
@@ -15,39 +15,29 @@ namespace XTestBackEnd
         {
             ormLight = new ORMLight<T>(connectionString, Constants.baseName);
         }
-
         public void Create(T item)
         {
-            ormLight.ObjectSave(item);
+            ormLight.Save(item);
         }
-
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            ormLight.Delete(id);
         }
-
         public void Dispose()
         {
             throw new NotImplementedException();
         }
-
         public T GetById(int id)
         {
-            throw new NotImplementedException();
+            return (T)ormLight.GetRecords(id);
         }
-
         public IEnumerable<T> GetList()
         {
-            throw new NotImplementedException();
-        }
-
-        public void Save()
-        {
-            throw new NotImplementedException();
+            return ormLight.GetRecords();
         }
         public void Update(T item)
         {
-            throw new NotImplementedException();
+            ormLight.Save(item);
         }
     }
 }

@@ -7,3 +7,9 @@
 /ADOORM/bin/Debug/netstandard2.0
 /ADOORM/obj
 /XTestBackEnd/bin/Debug/netcoreapp3.1
+/ADOORM/bin/Release/netstandard2.0
+/Contracts/bin
+/Contracts/obj
+/XTestBackEnd/bin/Release/netcoreapp3.1
+/XTestBackEnd/.config
+/XTestBackEnd/Properties/PublishProfiles
