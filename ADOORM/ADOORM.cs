@@ -37,9 +37,9 @@ namespace ADOORM
                 SqlDataReader reader = command.ExecuteReader();
                 if (reader.HasRows)
                 {
-                    object Readed = Activator.CreateInstance(objectType);
                     while (reader.Read())
                     {
+                        object Readed = Activator.CreateInstance(objectType);
                         var properties = objectType.GetProperties();
                         foreach (var property in properties)
                         {
@@ -64,9 +64,9 @@ namespace ADOORM
                 SqlDataReader reader = command.ExecuteReader();
                 if (reader.HasRows)
                 {
-                    object Readed = Activator.CreateInstance(objectType);
                     while (reader.Read())
                     {
+                        object Readed = Activator.CreateInstance(objectType);
                         var properties = objectType.GetProperties();
                         foreach (var property in properties)
                         {
@@ -91,7 +91,6 @@ namespace ADOORM
                 SqlDataReader reader = command.ExecuteReader();
                 if (reader.HasRows)
                 {
-
                     while (reader.Read())
                     {
                         ReadedList.Add(reader[propertyName], (int)reader["CNT"]);
