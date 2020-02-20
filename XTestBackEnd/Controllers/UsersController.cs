@@ -39,7 +39,8 @@ namespace XTestBackEnd.Controllers
         [HttpPost]
         public void Post([FromBody] User value)
         {
-            _userRepository.Create(value);
+            if (_userRepository.GetByFieldValue("GoogleID", value.GoogleID, false).Count == 0) 
+                _userRepository.Create(value);
         }
 
         // PUT: api/Users/5

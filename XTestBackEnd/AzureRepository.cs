@@ -8,7 +8,7 @@ using Contracts.Interfaces;
 
 namespace XTestBackEnd
 {
-    public class AzureRepository<T>: IRepository<T> where T : class
+    public class AzureRepository<T> : IRepository<T> where T : class
     {
         private readonly ORMLight<T> ormLight;
         public AzureRepository(string connectionString, ILogger logger)
@@ -29,7 +29,11 @@ namespace XTestBackEnd
         }
         public T GetById(int id)
         {
-            return (T)ormLight.GetRecords(id);
+            return ormLight.GetRecords(id);
+        }
+        public List<T> GetByFieldValue(string fieldName, string value, bool isNumber)
+        {
+            return ormLight.GetRecordsByValue(fieldName, value, isNumber);
         }
         public IEnumerable<T> GetList()
         {

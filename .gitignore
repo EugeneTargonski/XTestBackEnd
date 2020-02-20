@@ -13,3 +13,4 @@
 /XTestBackEnd/bin/Release/netcoreapp3.1
 /XTestBackEnd/.config
 /XTestBackEnd/Properties/PublishProfiles
+/XTestBackEnd/bin/IISSupport

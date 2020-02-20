@@ -14,5 +14,9 @@ namespace Contracts.Models
         public DateTime End { get; set; }
         public bool Approved { get; set; }
         public int UserId { get; set; }
+        public override string ToString()
+        {
+            return Begin.TimeOfDay.ToString("hh\\:mm") + " - " + End.TimeOfDay.ToString("hh\\:mm");
+        }
     }
 }

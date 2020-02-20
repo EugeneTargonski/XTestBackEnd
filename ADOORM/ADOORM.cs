@@ -53,13 +53,14 @@ namespace ADOORM
             return ReadedList;
         }
         //TODO non-ended
-        public List<T> GetRecordsByStringValue(string propertyName, string value)
+        public List<T> GetRecordsByValue(string propertyName, string value, bool isNumber)
         {
             List<T> ReadedList = new List<T>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sqlExpression = "SELECT * FROM " + tableName;
+                string quote = (isNumber) ? "" : "'";
+                string sqlExpression = "SELECT * FROM " + tableName + " WHERE " + propertyName + " = " + quote + value.ToString() + quote;
                 SqlCommand command = new SqlCommand(sqlExpression, connection);
                 SqlDataReader reader = command.ExecuteReader();
                 if (reader.HasRows)
@@ -134,17 +135,13 @@ namespace ADOORM
             }
             return Readed;
         }
-        //TODO refactor, sql inj is posible
+        //TODO refactor, sql inj is posible, need isNumber2 and quote2
         public object AgregateWithRestrictions(string propertyName, string agrFunction,
-                                                    string restrictionName, object restriction11,
-                                                    object restriction12,
-                                                    string restrictionName2, object restriction21,
-                                                    object restriction22, bool number = false)
+                                                    string restrictionName, object restriction11, object restriction12,
+                                                    string restrictionName2, object restriction21, object restriction22, bool isNumber = false)
         {
             object Readed = null;
-            string quote = "'";
-            if (number)
-                quote = "";
+            string quote = (isNumber)?"":"'";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -160,13 +157,10 @@ namespace ADOORM
         }
         //TODO refactor, sql inj is posible
         public object AgregateWithRestrictions(string propertyName, string agrFunction,
-                                                            string restrictionName, object restriction1,
-                                                            object restriction2, bool number = false)
+                                                            string restrictionName, object restriction1, object restriction2, bool isNumber = false)
         {
             object Readed = null;
-            string quote = "'";
-            if (number)
-                quote = "";
+            string quote = (isNumber) ? "" : "'";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();

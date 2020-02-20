@@ -9,6 +9,7 @@ namespace Contracts.Interfaces
     {
         IEnumerable<T> GetList();
         T GetById(int id);
+        List<T> GetByFieldValue(string fieldName, string value, bool isNumber);
         void Create(T item);
         void Update(T item);
         void Delete(int id);
