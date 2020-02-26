@@ -12,5 +12,7 @@ namespace Contracts.Models
         public DateTime WorkTimeEnd { get; set; }
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
+        public bool IsSaturdayOff { get; set; }
+        public bool IsSundayOff { get; set; }
     }
 }
