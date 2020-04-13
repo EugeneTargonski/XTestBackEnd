@@ -16,6 +16,11 @@ variables:
 
 steps:
 - task: GitVersion@5
+  inputs:
+    runtime: 'core'
+    preferBundledVersion: false
+    updateAssemblyInfo: true
+    updateAssemblyInfoFilename: 'SharedAssemblyInfo.cs'
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
