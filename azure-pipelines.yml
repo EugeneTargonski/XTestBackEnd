@@ -39,23 +39,10 @@ steps:
 #    platform: '$(buildPlatform)'
 #    configuration: '$(buildConfiguration)'
 
-stages:
-- stage: Deploy
-  jobs:
-  - deployment: AzureArtefacts
-    displayName: 'Azure Artefacts'
-    condition: ne(variables['Build.Reason'], 'PullRequest')
-    pool:
-      vmImage: windows-latest
-    environment: 'Azure Artefacts'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: NuGetToolInstaller@1
-            displayName: 'NuGet Install'
-          - task: NuGetAuthenticate@0
-            displayName: 'NuGet Authenticate'
-          - pwsh: nuget push $(Agent.BuildDirectory)\Windows\*.nupkg -Source https://pkgs.dev.azure.com/yauheni-tarhonski/_packaging/yauheni-tarhonski/nuget/v3/index.json -ApiKey AzureArtifacts -SkipDuplicate
-            displayName: 'NuGet Push'
-            failOnStderr: true
+- task: NuGetToolInstaller@1
+  displayName: 'NuGet Install'
+- task: NuGetAuthenticate@0
+  displayName: 'NuGet Authenticate'
+- pwsh: nuget push $(Agent.BuildDirectory)\Windows\*.nupkg -Source https://pkgs.dev.azure.com/yauheni-tarhonski/_packaging/yauheni-tarhonski/nuget/v3/index.json -ApiKey AzureArtifacts -SkipDuplicate
+  displayName: 'NuGet Push'
+  failOnStderr: true
