@@ -52,6 +52,9 @@ steps:
   inputs:
     command: 'pack'
     packagesToPack: '**/*.csproj'
+    versioningScheme: 'byEnvVar'
+    versionEnvVar: 'PackageVersion'
+    verbosityPack: 'Normal'
 
 # task to push the package to the private feed
 - task: NuGetCommand@2
