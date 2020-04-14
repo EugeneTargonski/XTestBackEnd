@@ -47,7 +47,7 @@ steps:
   displayName: 'NuGet push'
   inputs:
     command: push
-    publishVstsFeed: 'HelpersFeed'
+    publishVstsFeed: 'MyFeed'
     allowPackageConflicts: true
 
 #- task: VSBuild@1
