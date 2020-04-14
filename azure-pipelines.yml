@@ -27,21 +27,38 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: VSBuild@1
+# task to build the solution
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'build'
+    arguments: '--configuration $(buildConfiguration)'
+    projects: '**/*.sln'
+
+# task to create the nuget package
+- task: DotNetCoreCLI@2
+  displayName: "dotnet pack"
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.csproj'
+
+# task to push the package to the private feed
+- task: NuGetCommand@2
+  displayName: 'NuGet push'
+  inputs:
+    command: push
+    publishVstsFeed: 'HelpersFeed'
+    allowPackageConflicts: true
+
+#- task: VSBuild@1
+#  inputs:
+#    solution: '$(solution)'
+#    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+#    platform: '$(buildPlatform)'
+#    configuration: '$(buildConfiguration)'
 
 #- task: VSTest@2
 #  inputs:
 #    platform: '$(buildPlatform)'
 #    configuration: '$(buildConfiguration)'
 
-
-- task: NuGetAuthenticate@0
-  displayName: 'NuGet Authenticate'
-- pwsh: nuget push $(Agent.BuildDirectory)\Windows\*.nupkg -Source https://pkgs.dev.azure.com/yauheni-tarhonski/_packaging/yauheni-tarhonski/nuget/v3/index.json -ApiKey AzureArtifacts -SkipDuplicate
-  displayName: 'NuGet Push'
-  failOnStderr: true
