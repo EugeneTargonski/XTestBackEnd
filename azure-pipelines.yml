@@ -39,8 +39,7 @@ steps:
 #    platform: '$(buildPlatform)'
 #    configuration: '$(buildConfiguration)'
 
-- task: NuGetToolInstaller@1
-  displayName: 'NuGet Install'
+
 - task: NuGetAuthenticate@0
   displayName: 'NuGet Authenticate'
 - pwsh: nuget push $(Agent.BuildDirectory)\Windows\*.nupkg -Source https://pkgs.dev.azure.com/yauheni-tarhonski/_packaging/yauheni-tarhonski/nuget/v3/index.json -ApiKey AzureArtifacts -SkipDuplicate
