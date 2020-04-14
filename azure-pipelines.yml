@@ -21,6 +21,17 @@ steps:
     preferBundledVersion: false
     updateAssemblyInfo: true
     updateAssemblyInfoFilename: 'SharedAssemblyInfo.cs'
+
+- task: PowerShell@2
+  displayName: 'Use Package Version'
+  inputs:
+    targetType: 'inline'
+    script: |
+      $pkgVersion = if (("$(Build.SourceBranchName)" -eq "master") -or ("$(Build.SourceBranchName)" -eq "dev")) { "$(GitVersion.NuGetVersion)" } else { "$(GitVersion.FullSemVer)".Replace('+','.') }
+      Write-Host "Package version defined: $pkgVersion";
+      Write-Host "##vso[task.setvariable variable=PackageVersion]$pkgVersion";
+    failOnStderr: true
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
